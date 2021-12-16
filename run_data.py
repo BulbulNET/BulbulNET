@@ -2,7 +2,7 @@
 """
 Created on Thu Dec  2 13:30:34 2021
 
-@author: owner
+@author: AM and YL
 """
 
 import librosa
@@ -90,6 +90,7 @@ def data_processing(min_xtrain = -80.0 , data_path = 'data/train',
 
                # time stretch and putch shift augmentation
                if timeAug:
+                   
                       stretch_factor = np.random.uniform(0.7, 1.3)                    
                       y_aug = librosa.effects.time_stretch(y, stretch_factor)
                       if y_aug.size > y.size :
@@ -185,8 +186,10 @@ def bulbul_conv_net(df , dfaug , train_prcnt = 0.7, run_net = 'convnet', augment
         x_train_tp_aug = MFB_tpaug[:train_index]
         x_train_tp_aug = expand_dims(x_train_tp_aug, 3)
         x_train_tp_aug = expand_dims(x_train_tp_aug, 1)
-  
-   
+    else:
+        x_train_tp_aug = np.array([])  
+
+    
     x_train_orig = np.asarray(MFBmat[:train_index]).astype('float32')
     x_test_orig = np.asarray(MFBmat[train_index:]).astype('float32')   
     y_train = np.asarray(bin_labels[:train_index]).astype('float32')
@@ -209,8 +212,9 @@ def bulbul_conv_net(df , dfaug , train_prcnt = 0.7, run_net = 'convnet', augment
         Y =  np.hstack((y_train, y_train , y_train))            
         
         shapeMat = ( x_train_orig.shape[1], x_train_orig.shape[2], 1)
-        with open("data/train/data_50_1sec_full.pickle", 'wb') as f:
-            pickle.dump([shapeMat , X_abs , Y , x_test_abs , y_test], f)
+        # with open("data/train/data_50_1sec_full.pickle", 'wb') as f:
+        #     pickle.dump([shapeMat , X_abs , Y , x_test_abs , y_test], f)
+
             
 ########-------set data for bulbul net for no augmentation
     

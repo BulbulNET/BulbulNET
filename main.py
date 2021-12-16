@@ -48,7 +48,7 @@ f_min = 1000 # mel filters low freq
 f_max = 3500 # mel filters high freq
 fL = 700 # low freq for bandpass filter
 fH = 3900 # high freq for bandpass filter
-Th = 0.35 # threshold for labling
+Th = 0.35 # threshold for labeling
 min_xtrain = -80.0 # min value for dB spectrogram
 data_path = 'data/train'
 timeAug = False # if augmanttion is used
@@ -57,21 +57,29 @@ timeAug = False # if augmanttion is used
 
 ######-----option 2- read pickle file from data directory if training exist-
 
-if os.path.exists(data_path + "/large_df.pkl"):
-            large_df = pd.read_pickle(data_path + "/large_df.pkl")
-            df_aug = pd.read_pickle(data_path + "/df_aug.pkl")
-else:
-    if timeAug == True:
-            large_df, df_aug = RD.data_processing(min_xtrain , data_path , 
-                fs , dur ,  nfft , hop , n_filters  , f_min ,
-                f_max , fL , fH , Th , timeAug)
-            large_df.to_pickle(data_path + "/large_df" + '.pkl')
-            df_aug.to_pickle(data_path + "/df_aug" + '.pkl')
+if timeAug == True:
+    
+    if os.path.exists(data_path + "/large_df.pkl") and os.path.exists(data_path + "/df_aug.pkl"):
+        large_df = pd.read_pickle(data_path + "/large_df.pkl")
+        df_aug = pd.read_pickle(data_path + "/df_aug.pkl")
     else:
-            large_df = RD.data_processing(min_xtrain , data_path , 
+        large_df, df_aug = RD.data_processing(min_xtrain , data_path , 
+            fs , dur ,  nfft , hop , n_filters  , f_min ,
+            f_max , fL , fH , Th , timeAug)
+        large_df.to_pickle(data_path + "/large_df" + '.pkl')
+        df_aug.to_pickle(data_path + "/df_aug" + '.pkl')
+            
+else:
+    
+    if os.path.exists(data_path + "/large_df.pkl"):
+            large_df = pd.read_pickle(data_path + "/large_df.pkl")
+            df_aug = np.array([])
+    else:
+        large_df, df_aug= RD.data_processing(min_xtrain , data_path , 
                 fs , dur ,  nfft , hop , n_filters  , f_min ,
                 f_max , fL , fH , Th , timeAug)
-            df_aug = np.array([])
+        large_df.to_pickle(data_path + "/large_df" + '.pkl')
+        df_aug = np.array([])
 
 
 runNetwork = True
@@ -86,7 +94,7 @@ cutWords = False
 # TP, FP- number of true and false positive
 if runNetwork:
     test_acc , TPR , FPR , FP_TP, TP, FP = RD.bulbul_conv_net(df = large_df ,
-                dfaug = df_aug , train_prcnt = 0.7 , run_net = 'convnet')
+            dfaug = df_aug , train_prcnt = 0.7 , run_net = 'convnet', augmentation = timeAug)
 
 
 """
