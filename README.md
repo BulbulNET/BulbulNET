@@ -1,4 +1,3 @@
-![Figure7 cnn configuration](https://user-images.githubusercontent.com/96051637/146358336-5b1263f4-20eb-4415-85b6-b597cc67e0da.jpg)
 # BulbulNET – 
 ## neural network for bulbul call detection
 
@@ -47,4 +46,6 @@ runData = True
 cutWords = True
 
 In this example, if you have a saved model, there is no need to run the network again. Run_data uses the saved model and creates predictions on new data, then cut the detected event with "cut_words" and saves them in directory.
+
+![Figure7 cnn configuration](https://user-images.githubusercontent.com/96051637/146358336-5b1263f4-20eb-4415-85b6-b597cc67e0da.jpg)
 
