@@ -1,3 +1,4 @@
+![Figure7 cnn configuration](https://user-images.githubusercontent.com/96051637/146358336-5b1263f4-20eb-4415-85b6-b597cc67e0da.jpg)
 # BulbulNET – 
 ## neural network for bulbul call detection
 
